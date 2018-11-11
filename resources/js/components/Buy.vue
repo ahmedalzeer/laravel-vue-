@@ -1,0 +1,162 @@
+<template>
+    <div>
+        <div class="row">
+            <div class="col-md-2">
+                <div v-for="item in items.data">
+                    <div id="itemresult" @click="getitem(item)">{{item.item_name}}</div>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="card card-dark">
+                    <div class="card-header">
+                        <label>Buys</label>
+                    </div>
+                    <form id="form_sale" action="api/buy" method="post">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="hidden" name="buy_user" id="hiddenuser" value=""/>
+                                        <input v-model="form.buy_sub" type="text" name="buy_sub" placeholder="Supplier Name"
+                                               class="form-control" :class="{ 'is-invalid': form.errors.has('buy_sub') }">
+                                        <has-error :form="form" field="buy_sub"></has-error>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input v-model="form.buy_subphone" type="text" name="buy_subphone" placeholder="Supplier Phone"
+                                               class="form-control" :class="{ 'is-invalid': form.errors.has('buy_subphone') }">
+                                        <has-error :form="form" field="buy_subphone"></has-error>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <table id="form_item">
+                                    </table>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="totalmoney" class=" btn btn-default btn-sm" value="total">
+                                    <div class="form-group">
+                                        <input type="text" name="total" id="fullprice"
+                                               class="form-control" :class="{ 'is-invalid': form.errors.has('total') }">
+                                        <has-error :form="form" field="totaltotal"></has-error>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>paid</label>
+                                    <div class="form-group">
+                                        <input v-model="form.buy_price" type="text" name="buy_price" id="paymount"
+                                               class="form-control" :class="{ 'is-invalid': form.errors.has('buy_price') }">
+                                        <has-error :form="form" field="buy_price"></has-error>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>stay</label>
+                                    <div class="form-group">
+                                        <input v-model="form.buy_stayprice" type="text" name="buy_stayprice" id="staymount"
+                                               class="form-control" :class="{ 'is-invalid': form.errors.has('buy_stayprice') }">
+                                        <has-error :form="form" field="buy_stayprice"></has-error>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Buy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        data(){
+            return{
+                items:{},
+                newitem:{},
+                form:new Form({
+                    buy_user:     '',
+                })
+            }
+        },
+        methods:{
+            getitem(item){
+                $('#form_item').append('<tr id="removerow" class="form" style="margin-bottom: 3px;">'
+                    +'<td><div class="form-group">'
+                    +'<label>item</label>'
+                    +'<input type="text" id="itemname" name="item_name" class="itemname form-control" value="'+item.item_name+'">'
+                    +'<input type="hidden" name="item['+item.id+']" value="'+item.id+'">'
+                    +'</div></td><td><div class="form-group">'
+                    +'<label>mount</label> '+'  '+'<strong id="mountprint"></strong>'
+                    +'<input type="text" name="mount['+item.id+']" id="mount'+item.id+'" class="mount form-control" value="1">'
+                    +'</div></td><td><div class="form-group">'
+                    +'<label>price</label>'
+                    +'<input type="text" name="price" id="price'+item.id+'" class="buyprice form-control" value="'+item.sell_price+'">'
+                    +'</div></td><td><div class="form-group"><i class="fas fa-window-close red"></i></div></td></tr>');
+
+            },
+            createsale(){
+                this.$Progress.start()
+                this.form.sale_user = $('#userid').val()
+                this.form.post('api/sale')
+            }
+        },
+        created(){
+            fire.$on('searching',()=>{
+                let item = this.$parent.search
+                axios.get('api/finditem?q=' + item)
+                    .then((data) => {
+                        this.items = data.data
+                    })
+                    .catch(() => {
+                    })
+            })
+        }
+    }
+    $(document).on('keyup','#form_sale',function () {
+        let sss =$('#userid').val();
+        $('#hiddenuser').val(sss)
+    });
+    $(document).on('keyup','#form_sale',function () {
+        staymount=$('#paymount').val()-$('#fullprice').val();
+        $('#staymount').val(Math.abs(staymount));
+    });
+    $(document).on("click",'#totalmoney', function(){
+        var sum=0;
+        $(".buyprice").each(function(){
+
+            sum += parseInt($(this).val());
+        });
+        $("#fullprice").val(sum);
+    });
+    $(document).on('dblclick','#removerow',function(){
+        $(this).remove();
+    })
+    $(document).on('keyup','.form',function () {
+        var $btn = $(this);
+        var dd=$btn.find('.itemname').val();
+        $.ajax({
+            url: 'api/salemount',
+            method: "POST",
+            data: {ww : dd},
+            dataType: 'json',
+            success: function (data) {
+                $.each(data,function (key,val) {
+                    let hh= $('#mount'+val.id).val();
+                    let totalprice = hh*val.sell_price;
+                    $('#price'+val.id).val(totalprice);
+                });
+            }
+        });
+    });
+</script>
+
+<style scoped>
+    #itemresult{
+        background-color: #1b4b72;
+        color: white;
+        margin: 2px 2px 2px;
+        cursor: pointer;
+    }
+</style>
