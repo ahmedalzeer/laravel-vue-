@@ -50,7 +50,9 @@
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "chmod -R 777 public/",
+            "chmod -R 777 database/database.sqlite"
         ]
 
 
