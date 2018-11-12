@@ -1,5 +1,6 @@
 # laravel + vue js<br/>
 demo =>http://salesvue.herokuapp.com
+<input value="composer update"/>
 that's project has multi pakages for vue js and laravel like<br/>
 *vue-progressbar<br/>
 *vue-agile<br/>
