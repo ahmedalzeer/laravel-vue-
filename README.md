@@ -1,6 +1,6 @@
 # laravel-vue-
 demo =>http://salesvue.herokuapp.com
-that's project has multi pakages for vue js and laravel like
+that's project has multi pakages for vue js and laravel like<br/>
 *vue-progressbar
 *vue-agile
 *vue-router
