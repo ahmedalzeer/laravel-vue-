@@ -55,9 +55,7 @@
             "@php artisan package:discover --ansi"
         ],
         "compile": [
-            "chmod -R 777 var/",
-            "chmod 755 etc/",
-            "chmod 644 etc/config.php"
+            "chmod -R 777 database/database.sqlite"
         ]
 
 
