@@ -4,7 +4,9 @@
 <br/>
 app to manage your sales easy way and can print inventory by one click<br/>
 <br/>
-demo =>http://salesvue.herokuapp.com
+demo =>http://salesvue.herokuapp.com    <br/>
+email for demo =>ahmed@a.com  <br/>
+pass for demo =>123456   <br/>
 <br/>
 that's project has multi pakages for vue js and laravel like<br/>
 <br/>
