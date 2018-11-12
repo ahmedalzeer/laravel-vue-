@@ -16,6 +16,8 @@ that's project has multi pakages for vue js and laravel like<br/>
 *laravel-vue-pagination<br/>
 *adminlte-vue<br/>
 *fontawesome-free<br/>
+*laravel/passport<br/>
+*intervention/image<br/>
 and more<br/>
 laravel it's amazing framework<br/>
 vuejs it;s fast, bueaty,and easy to use <br/>
