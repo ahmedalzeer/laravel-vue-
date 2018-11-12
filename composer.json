@@ -53,10 +53,6 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
-        ],
-        "compile": [
-            "chmod -R 777 database/database.sqlite",
-            "chmod -R 777 app/storage/oauth-public.key"
         ]
 
 
