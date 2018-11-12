@@ -1,4 +1,4 @@
-# laravel-vue-
+# laravel + vue js<br/>
 demo =>http://salesvue.herokuapp.com
 that's project has multi pakages for vue js and laravel like<br/>
 *vue-progressbar<br/>
